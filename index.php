@@ -1,7 +1,5 @@
 <?php
-
 include_once 'config.php';
-
 // Get featured products
 $stmt = $pdo->query("SELECT * FROM products ORDER BY created_at DESC LIMIT 6");
 $featured_products = $stmt->fetchAll();
@@ -13,7 +11,7 @@ $orders = $stmt->fetchAll();
 
 // Get cart count
 $stmt = $pdo->prepare("SELECT SUM(quantity) as total FROM cart WHERE user_id = ?");
-$stmt->execute([$_SESSION["user_id"]]);
+$user_id = $_SESSION['user_id'] ?? null;
 $cart_count = $stmt->fetchColumn() ?: 0;
 ?>
 <!DOCTYPE html>
@@ -278,7 +276,7 @@ $cart_count = $stmt->fetchColumn() ?: 0;
      <nav class="navbar">
         <div class="nav-container">
             <a href="index.php" class="logo">
-                <i class="fas fa-coffee"></i> BrewMaster
+                <i class="fas fa-coffee"></i> BrewMaster 
             </a>
             <ul class="nav-links">
                 <li><a href="index.php">Home</a></li>
@@ -308,30 +306,7 @@ $cart_count = $stmt->fetchColumn() ?: 0;
         </div>
     </section>
 
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Featured Products</h2>
-            <div class="featured-products">
-                <?php foreach ($featured_products as $product): ?>
-                <div class="product-card">
-                    <div class="product-image">
-                        <i class="fas fa-coffee"></i>
-                    </div>
-                    <div class="product-info">
-                        <h3><?php echo htmlspecialchars($product['name']); ?></h3>
-                        <p><?php echo htmlspecialchars($product['description']); ?></p>
-                        <div class="product-price">$<?php echo number_format($product['price'], 2); ?></div>
-                        <?php if (isLoggedIn()): ?>
-                            <a href="add_to_cart.php?id=<?php echo $product['id']; ?>" class="btn">Add to Cart</a>
-                        <?php else: ?>
-                            <a href="login.php" class="btn">Login to Purchase</a>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </section>
+   
 
   <?php include_once("footer.php"); ?>
   

@@ -133,15 +133,16 @@
     </style>
 </head>
 <body>
-    <a href="index.php" class="back-home">
-        <i class="fas fa-arrow-left"></i>
-    </a>
+   
 
     <div class="login-container">
         <div class="logo">
             <i class="fas fa-coffee"></i> BrewMaster
         </div>
- <?php if ($error): ?>
+        
+ <?php 
+ $error = ''; 
+ if ($error): ?>
             <div class="error"><?php echo $error; ?></div>
         <?php endif; ?>
         
@@ -159,9 +160,7 @@
             <button type="submit" class="btn">Login</button>
         </form>
 
-        <div class="links">
-            <a href="register.php">Don't have an account? Register</a>
-        </div>
+       
     </div>
 </body>
 </html>

@@ -17,13 +17,14 @@ CREATE TABLE users (
 -- Products table
 CREATE TABLE products (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
+    name VARCHAR(255) NOT NULL,
     description TEXT,
-    price DECIMAL(10,2) NOT NULL,
-    image VARCHAR(255),
-    category VARCHAR(50),
-    stock INT DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    price DECIMAL(10, 2) NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    image_url TEXT,
+    stock INT NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- Cart table
@@ -74,20 +75,74 @@ CREATE TABLE bookings (
 INSERT INTO users (username, email, password, is_admin) VALUES 
 ('admin', 'admin@coffee.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', TRUE);
 
--- Insert sample products
-INSERT INTO products (name, description, price, image, category, stock) VALUES
-('Espresso', 'Rich and bold espresso shot', 2.50, 'espresso.jpg', 'Hot Coffee', 50),
-('Cappuccino', 'Perfect blend of espresso and steamed milk', 3.75, 'cappuccino.jpg', 'Hot Coffee', 45),
-('Latte', 'Smooth espresso with steamed milk and foam', 4.25, 'latte.jpg', 'Hot Coffee', 40),
-('Americano', 'Espresso with hot water for a lighter taste', 3.00, 'americano.jpg', 'Hot Coffee', 35),
-('Mocha', 'Chocolate and espresso perfection', 4.50, 'mocha.jpg', 'Hot Coffee', 30),
-('Macchiato', 'Espresso with a dollop of foam', 3.50, 'macchiato.jpg', 'Hot Coffee', 25),
-('French Press', 'Full-bodied coffee brewed to perfection', 3.25, 'french_press.jpg', 'Hot Coffee', 20),
-('Cold Brew', 'Smooth, refreshing cold coffee', 3.75, 'cold_brew.jpg', 'Cold Coffee', 40),
-('Iced Latte', 'Chilled version of our classic latte', 4.00, 'iced_latte.jpg', 'Cold Coffee', 35),
-('Frappuccino', 'Blended ice coffee drink', 5.25, 'frappuccino.jpg', 'Cold Coffee', 30),
-('Green Tea Latte', 'Creamy green tea with steamed milk', 4.25, 'green_tea_latte.jpg', 'Tea', 25),
-('Chai Latte', 'Spiced tea with steamed milk', 4.00, 'chai_latte.jpg', 'Tea', 30),
-('Hot Chocolate', 'Rich and creamy chocolate drink', 3.50, 'hot_chocolate.jpg', 'Other', 35),
-('Coffee Beans - House Blend', '1lb bag of our signature blend', 12.99, 'beans_house.jpg', 'Beans', 100),
-('Coffee Beans - Dark Roast', '1lb bag of dark roasted beans', 13.99, 'beans_dark.jpg', 'Beans', 80);
+-- Sample data for coffee shop products
+-- Run these INSERT statements in your MySQL database after creating the products table
+
+-- Dark Roast Coffee Products
+INSERT INTO products (name, description, price, category, image_url, stock, created_at) VALUES
+('Ethiopian Dark Roast', 'Rich and bold Ethiopian coffee with notes of chocolate and berries. Perfect for espresso or french press brewing.', 16.99, 'Dark Roast', 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=400&h=300&fit=crop', 45, NOW()),
+
+('Colombian Supreme Dark', 'Premium Colombian beans roasted to perfection. Full-bodied with a smooth finish and hints of caramel.', 18.50, 'Dark Roast', 'https://images.unsplash.com/photo-1559496417-e7f25cb247cd?w=400&h=300&fit=crop', 32, NOW()),
+
+('French Roast Blend', 'Classic French roast with intense smoky flavor. Bold and robust, perfect for those who love strong coffee.', 15.25, 'Dark Roast', 'https://images.unsplash.com/photo-1610632380989-680fe40816c6?w=400&h=300&fit=crop', 28, NOW()),
+
+-- Medium Roast Coffee Products
+('Brazilian Medium Roast', 'Smooth Brazilian beans with balanced acidity. Notes of nuts and milk chocolate make this perfect for any time of day.', 14.75, 'Medium Roast', 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop', 52, NOW()),
+
+('Guatemala Antigua', 'Single-origin Guatemalan coffee with complex flavor profile. Medium roast brings out citrus and spice notes.', 19.99, 'Medium Roast', 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop', 38, NOW()),
+
+('House Blend Medium', 'Our signature house blend combining beans from three continents. Perfectly balanced for everyday enjoyment.', 13.99, 'Medium Roast', 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400&h=300&fit=crop', 65, NOW()),
+
+-- Light Roast Coffee Products
+('Ethiopian Light Roast', 'Bright and floral Ethiopian beans with wine-like acidity. Perfect for pour-over brewing methods.', 17.50, 'Light Roast', 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&h=300&fit=crop', 29, NOW()),
+
+('Costa Rican Light', 'High-altitude Costa Rican beans with bright citrus notes. Light roast preserves the beans natural flavors.', 16.25, 'Light Roast', 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=300&fit=crop', 41, NOW()),
+
+('Breakfast Blend Light', 'Gentle morning blend with mild flavor and smooth finish. Perfect way to start your day.', 12.99, 'Light Roast', 'https://images.unsplash.com/photo-1497515114629-f71d768fd07c?w=400&h=300&fit=crop', 48, NOW()),
+
+-- Espresso Products
+('Italian Espresso Blend', 'Traditional Italian espresso blend with rich crema. Perfect balance of intensity and smoothness.', 21.99, 'Espresso', 'https://images.unsplash.com/photo-1510707577719-ae7c14805e5a?w=400&h=300&fit=crop', 35, NOW()),
+
+('Single Origin Espresso', 'Premium single-origin beans crafted specifically for espresso. Complex flavor with lasting finish.', 24.50, 'Espresso', 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&h=300&fit=crop', 22, NOW()),
+
+('Decaf Espresso', 'All the flavor of our signature espresso without the caffeine. Swiss water processed for purity.', 19.75, 'Espresso', 'https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400&h=300&fit=crop', 18, NOW()),
+
+-- Decaf Products
+('Colombian Decaf', 'Premium Colombian beans decaffeinated using the Swiss water process. Full flavor without the caffeine.', 17.99, 'Decaf', 'https://images.unsplash.com/photo-1606312619070-d48b4c652a52?w=400&h=300&fit=crop', 26, NOW()),
+
+('French Roast Decaf', 'Bold French roast flavor in a decaffeinated version. Perfect for evening coffee lovers.', 16.50, 'Decaf', 'https://images.unsplash.com/photo-1545665277-5937750a7173?w=400&h=300&fit=crop', 31, NOW()),
+
+-- Cold Brew Products
+('Cold Brew Concentrate', 'Smooth cold brew concentrate perfect for iced coffee. Just add water or milk and enjoy.', 22.99, 'Cold Brew', 'https://images.unsplash.com/photo-1461988320302-91bde64fc8e4?w=400&h=300&fit=crop', 15, NOW()),
+
+('Vanilla Cold Brew', 'Cold brew infused with natural vanilla flavoring. Smooth and refreshing with a sweet finish.', 24.99, 'Cold Brew', 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=400&h=300&fit=crop', 12, NOW()),
+
+('Nitro Cold Brew', 'Nitrogen-infused cold brew for that perfect creamy texture. Served on tap for the ultimate experience.', 26.50, 'Cold Brew', 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop', 8, NOW()),
+
+-- Coffee Accessories
+('French Press - 34oz', 'Premium stainless steel French press perfect for brewing rich, full-bodied coffee at home.', 39.99, 'Accessories', 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&h=300&fit=crop', 25, NOW()),
+
+('Pour Over Coffee Dripper', 'Ceramic pour-over dripper for the perfect cup. Includes 100 paper filters to get you started.', 29.99, 'Accessories', 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=300&fit=crop', 18, NOW()),
+
+('Coffee Grinder - Burr', 'Professional burr grinder for consistent grind size. Essential for the perfect coffee extraction.', 79.99, 'Accessories', 'https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=400&h=300&fit=crop', 12, NOW()),
+
+('Thermal Coffee Carafe', 'Double-walled stainless steel carafe keeps coffee hot for hours. Perfect for offices and homes.', 45.99, 'Accessories', 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400&h=300&fit=crop', 22, NOW()),
+
+('Coffee Storage Canister', 'Airtight coffee storage canister with CO2 valve. Keeps coffee fresh for weeks.', 24.99, 'Accessories', 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=300&fit=crop', 35, NOW()),
+
+('Espresso Cups Set', 'Set of 6 traditional Italian espresso cups with saucers. Perfect for serving authentic espresso.', 34.99, 'Accessories', 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&h=300&fit=crop', 15, NOW()),
+
+('Coffee Scale Digital', 'Precision digital scale for perfect coffee-to-water ratios. Essential for serious coffee enthusiasts.', 49.99, 'Accessories', 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&h=300&fit=crop', 20, NOW());
+
+-- Additional seasonal and specialty items
+INSERT INTO products (name, description, price, category, image_url, stock, created_at) VALUES
+('Holiday Blend', 'Limited edition holiday blend with cinnamon and nutmeg notes. Available only during the holiday season.', 19.99, 'Medium Roast', 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop', 40, NOW()),
+
+('Organic Fair Trade Blend', 'Certified organic and fair trade coffee blend. Supporting sustainable farming practices worldwide.', 21.50, 'Medium Roast', 'https://images.unsplash.com/photo-1497515114629-f71d768fd07c?w=400&h=300&fit=crop', 33, NOW()),
+
+('Jamaican Blue Mountain', 'Rare and expensive Jamaican Blue Mountain coffee. Known for its mild flavor and lack of bitterness.', 89.99, 'Light Roast', 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=400&h=300&fit=crop', 5, NOW()),
+
+('Kona Hawaiian Coffee', 'Authentic Hawaiian Kona coffee with smooth, rich flavor. Grown on the volcanic slopes of Hawaii.', 65.99, 'Medium Roast', 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop', 8, NOW());
+
+-- Check the inserted data
+-- SELECT * FROM products ORDER BY category, name;

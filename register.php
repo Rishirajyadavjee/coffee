@@ -215,7 +215,7 @@ if ($_POST) {
                 <input type="password" id="confirm_password" name="confirm_password" required>
             </div>
 
-            <button type="submit" class="btn">Register</button>
+            <button type="submit" class="btn"></a>Register</button>
         </form>
 
         <div class="links">

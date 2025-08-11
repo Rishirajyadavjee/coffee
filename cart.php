@@ -31,12 +31,13 @@ if (isset($_GET['remove'])) {
 
 // Get cart items
 $stmt = $pdo->prepare("
-    SELECT c.*, p.name, p.price, p.image, p.stock 
-    FROM cart c 
-    JOIN products p ON c.product_id = p.id 
-    WHERE c.user_id = ? 
+    SELECT c.*, p.name, p.price, p.image_path, p.stock
+    FROM cart c
+    JOIN products p ON c.product_id = p.id
+    WHERE c.user_id = ?
     ORDER BY c.created_at DESC
 ");
+
 $stmt->execute([$_SESSION['user_id']]);
 $cart_items = $stmt->fetchAll();
 
@@ -466,13 +467,3 @@ foreach ($cart_items as $item) {
 
 </html>
 
-<button" class="quantity-btn">-</button>
-    </form>
-
-    <input type="number" class="quantity-input" value="<?php echo $item['quantity']; ?>" min="1"
-        max="<?php echo $item['stock']; ?>" onchange="updateQuantity(<?php echo $item['id']; ?>, this.value)">
-
-    <form method="POST" style="display: inline;">
-        <input type="hidden" name="cart_id" value="<?php echo $item['id']; ?>">
-        <input type="hidden" name="quantity" value="<?php echo min($item['stock'], $item['quantity'] + 1); ?>">
-        <button type="submit" name="update_
