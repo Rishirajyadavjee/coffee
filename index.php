@@ -299,7 +299,7 @@ $cart_count = $stmt->fetchColumn() ?: 0;
             </ul>
         </div>
     </nav>
-    <?php// include_once("navigation.php"); ?>
+                    
 
     <section class="hero">
         <div class="hero-content">
