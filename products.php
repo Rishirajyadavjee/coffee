@@ -31,12 +31,12 @@ $categories = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
 // Get user orders
 $stmt = $pdo->prepare("SELECT o.*, COUNT(oi.id) as item_count FROM orders o LEFT JOIN order_items oi ON o.id = oi.order_id WHERE o.user_id = ? GROUP BY o.id ORDER BY o.order_date DESC");
-$user_id = $_SESSION['user_id'] ?? null;
+$user_id = $_SESSION['user_id'] ?? null; // $stmt->execute([$_SESSION['user_id']]);
 $orders = $stmt->fetchAll();
 
 // Get cart count
 $stmt = $pdo->prepare("SELECT SUM(quantity) as total FROM cart WHERE user_id = ?");
-$user_id = $_SESSION['user_id'] ?? null;
+$user_id = $_SESSION['user_id'] ?? null;  // $stmt->execute([$_SESSION['user_id']]);
 $cart_count = $stmt->fetchColumn() ?: 0;
 
 ?>
