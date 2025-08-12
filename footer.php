@@ -9,7 +9,7 @@
                     <h3>Quick Links</h3>
                     <a href="products.php">Our Products</a>
                     <a href="gallery.php">Gallery</a>
-                    <a href="about.php">About Us</a>
+                    <a href="about_us.php">About Us</a>
                 </div>
                 <div class="footer-section">
                     <h3>Contact Info</h3>
