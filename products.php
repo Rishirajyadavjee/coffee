@@ -1,6 +1,6 @@
 <?php
 require_once 'config.php';
-
+//rishi
 // Get all products
 $category_filter = isset($_GET['category']) ? $_GET['category'] : '';
 $search = isset($_GET['search']) ? $_GET['search'] : '';
