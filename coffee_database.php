@@ -79,7 +79,7 @@ INSERT INTO users (username, email, password, is_admin) VALUES
 -- Run these INSERT statements in your MySQL database after creating the products table
 
 -- Dark Roast Coffee Products
-INSERT INTO products (name, description, price, category, image_url, stock, created_at) VALUES
+INSERT INTO products (name, description, price, category, image_path, stock, created_at) VALUES
 ('Ethiopian Dark Roast', 'Rich and bold Ethiopian coffee with notes of chocolate and berries. Perfect for espresso or french press brewing.', 16.99, 'Dark Roast', 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=400&h=300&fit=crop', 45, NOW()),
 
 ('Colombian Supreme Dark', 'Premium Colombian beans roasted to perfection. Full-bodied with a smooth finish and hints of caramel.', 18.50, 'Dark Roast', 'https://images.unsplash.com/photo-1559496417-e7f25cb247cd?w=400&h=300&fit=crop', 32, NOW()),
