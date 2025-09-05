@@ -8,7 +8,7 @@ $password = '';
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }
 
@@ -26,88 +26,7 @@ $createTable = "CREATE TABLE IF NOT EXISTS products (
 )";
 $pdo->exec($createTable);
 
-// Insert sample data if table is empty
-$count = $pdo->query("SELECT COUNT(*) FROM products")->fetchColumn();
-if ($count == 0) {
-    $sampleData = [
-        [
-            'name' => 'Ethiopian Yirgacheffe',
-            'description' => 'A bright and floral coffee with citrusy notes and a clean finish. Grown in the highlands of Ethiopia.',
-            'price' => 18.99,
-            'category' => 'Single Origin',
-            'image_path' => 'images/ethiopian-yirgacheffe.jpg',
-            'stock' => 50
-        ],
-        [
-            'name' => 'Colombian Supremo',
-            'description' => 'Rich and full-bodied with chocolate undertones and a smooth, balanced flavor profile.',
-            'price' => 16.50,
-            'category' => 'Single Origin',
-            'image_path' => 'images/colombian-supremo.jpg',
-            'stock' => 75
-        ],
-        [
-            'name' => 'House Blend Dark Roast',
-            'description' => 'Our signature dark roast blend with bold, smoky flavors and hints of caramel.',
-            'price' => 14.99,
-            'category' => 'Blend',
-            'image_path' => 'images/house-blend-dark.jpg',
-            'stock' => 100
-        ],
-        [
-            'name' => 'Guatemala Antigua',
-            'description' => 'Medium-bodied coffee with spicy and smoky characteristics, grown in volcanic soil.',
-            'price' => 17.25,
-            'category' => 'Single Origin',
-            'image_path' => 'images/guatemala-antigua.jpg',
-            'stock' => 40
-        ],
-        [
-            'name' => 'French Vanilla Flavored',
-            'description' => 'Smooth medium roast coffee infused with rich vanilla flavor and aromatic sweetness.',
-            'price' => 15.75,
-            'category' => 'Flavored',
-            'image_path' => 'images/french-vanilla.jpg',
-            'stock' => 60
-        ],
-        [
-            'name' => 'Espresso Blend',
-            'description' => 'Perfect for espresso shots with a rich crema and intense flavor. Ideal for lattes and cappuccinos.',
-            'price' => 19.99,
-            'category' => 'Espresso',
-            'image_path' => 'images/espresso-blend.jpg',
-            'stock' => 80
-        ],
-        [
-            'name' => 'Decaf Swiss Water Process',
-            'description' => 'Full flavor without the caffeine, processed using the Swiss Water method to preserve taste.',
-            'price' => 16.99,
-            'category' => 'Decaf',
-            'image_path' => 'images/decaf-swiss.jpg',
-            'stock' => 30
-        ],
-        [
-            'name' => 'Jamaica Blue Mountain',
-            'description' => 'One of the worlds most expensive coffees, known for its mild flavor and lack of bitterness.',
-            'price' => 45.00,
-            'category' => 'Premium',
-            'image_path' => 'images/jamaica-blue-mountain.jpg',
-            'stock' => 20
-        ]
-    ];
 
-    $stmt = $pdo->prepare("INSERT INTO products (name, description, price, category, image_path, stock) VALUES (?, ?, ?, ?, ?, ?)");
-    foreach ($sampleData as $product) {
-        $stmt->execute([
-            $product['name'],
-            $product['description'],
-            $product['price'],
-            $product['category'],
-            $product['image_path'],
-            $product['stock']
-        ]);
-    }
-}
 
 // Handle form submissions
 $message = '';
@@ -129,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     ]);
                     $message = "Product added successfully!";
                     $messageType = "success";
-                } catch(PDOException $e) {
+                } catch (PDOException $e) {
                     $message = "Error adding product: " . $e->getMessage();
                     $messageType = "error";
                 }
@@ -149,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     ]);
                     $message = "Product updated successfully!";
                     $messageType = "success";
-                } catch(PDOException $e) {
+                } catch (PDOException $e) {
                     $message = "Error updating product: " . $e->getMessage();
                     $messageType = "error";
                 }
@@ -161,11 +80,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $stmt->execute([$_POST['id']]);
                     $message = "Product deleted successfully!";
                     $messageType = "success";
-                } catch(PDOException $e) {
+                } catch (PDOException $e) {
                     $message = "Error deleting product: " . $e->getMessage();
                     $messageType = "error";
                 }
                 break;
+            //is me changes kiye hai     
+            case 'toggle':
+                try {
+                    $stmt = $pdo->prepare("UPDATE products 
+                               SET visible = CASE WHEN visible = 1 THEN 0 ELSE 1 END 
+                               WHERE id=?");
+                    $stmt->execute([$_POST['id']]);
+                    $message = "Product visibility updated!";
+                    $messageType = "success";
+                } catch (PDOException $e) {
+                    $message = "Error updating visibility: " . $e->getMessage();
+                    $messageType = "error";
+                }
+                break;
+
         }
     }
 }
@@ -184,6 +118,7 @@ if (isset($_GET['edit'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -207,7 +142,7 @@ if (isset($_GET['edit'])) {
             margin: 0 auto;
             background: white;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             overflow: hidden;
         }
 
@@ -221,7 +156,7 @@ if (isset($_GET['edit'])) {
         .header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .header p {
@@ -505,14 +440,13 @@ if (isset($_GET['edit'])) {
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
             <h1>☕ Coffee Shop Admin</h1>
             <p>Manage your coffee products with ease</p>
-            <button 
-    onclick="window.location.href='logout.php'" 
-    style="
+            <button onclick="window.location.href='logout.php'" style="
         background-color: #d9534f;
         color: white;
         padding: 12px 24px;
@@ -522,21 +456,19 @@ if (isset($_GET['edit'])) {
         cursor: pointer;
         transition: all 0.3s ease;
         font-family: 'Segoe UI', sans-serif;
-    "
-    onmouseover="this.style.transform='scale(1.05)'; this.style.backgroundColor='#c9302c';"
-    onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='#d9534f';"
->
-    🔓 Logout
-</button>
+    " onmouseover="this.style.transform='scale(1.05)'; this.style.backgroundColor='#c9302c';"
+                onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='#d9534f';">
+                🔓 Logout
+            </button>
 
         </div>
 
         <?php if ($message): ?>
-        <div style="padding: 20px 30px 0;">
-            <div class="message <?php echo $messageType; ?>">
-                <?php echo htmlspecialchars($message); ?>
+            <div style="padding: 20px 30px 0;">
+                <div class="message <?php echo $messageType; ?>">
+                    <?php echo htmlspecialchars($message); ?>
+                </div>
             </div>
-        </div>
         <?php endif; ?>
 
         <!-- Statistics -->
@@ -579,17 +511,20 @@ if (isset($_GET['edit'])) {
 
                     <div class="form-group">
                         <label for="name">Product Name <span class="required">*</span></label>
-                        <input type="text" id="name" name="name" value="<?php echo $editProduct ? htmlspecialchars($editProduct['name']) : ''; ?>" required>
+                        <input type="text" id="name" name="name"
+                            value="<?php echo $editProduct ? htmlspecialchars($editProduct['name']) : ''; ?>" required>
                     </div>
 
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea id="description" name="description"><?php echo $editProduct ? htmlspecialchars($editProduct['description']) : ''; ?></textarea>
+                        <textarea id="description"
+                            name="description"><?php echo $editProduct ? htmlspecialchars($editProduct['description']) : ''; ?></textarea>
                     </div>
 
                     <div class="form-group">
                         <label for="price">Price ($) <span class="required">*</span></label>
-                        <input type="number" id="price" name="price" step="0.01" min="0" value="<?php echo $editProduct ? $editProduct['price'] : ''; ?>" required>
+                        <input type="number" id="price" name="price" step="0.01" min="0"
+                            value="<?php echo $editProduct ? $editProduct['price'] : ''; ?>" required>
                     </div>
 
                     <div class="form-group">
@@ -607,7 +542,9 @@ if (isset($_GET['edit'])) {
 
                     <div class="form-group">
                         <label for="image_path">Image Path <span class="required">*</span></label>
-                        <input type="text" id="image_path" name="image_path" value="<?php echo $editProduct ? htmlspecialchars($editProduct['image_path']) : ''; ?>" required>
+                        <input type="text" id="image_path" name="image_path"
+                            value="<?php echo $editProduct ? htmlspecialchars($editProduct['image_path']) : ''; ?>"
+                            required>
                         <div class="image-path-help">
                             Example: images/coffee-name.jpg<br>
                             Make sure the image exists in your project folder
@@ -616,7 +553,8 @@ if (isset($_GET['edit'])) {
 
                     <div class="form-group">
                         <label for="stock">Stock Quantity <span class="required">*</span></label>
-                        <input type="number" id="stock" name="stock" min="0" value="<?php echo $editProduct ? $editProduct['stock'] : '0'; ?>" required>
+                        <input type="number" id="stock" name="stock" min="0"
+                            value="<?php echo $editProduct ? $editProduct['stock'] : '0'; ?>" required>
                     </div>
 
                     <button type="submit" class="btn btn-primary">
@@ -624,7 +562,8 @@ if (isset($_GET['edit'])) {
                     </button>
 
                     <?php if ($editProduct): ?>
-                        <a href="?" class="btn" style="background: #6c757d; color: white; margin-left: 10px;">Cancel Edit</a>
+                        <a href="?" class="btn" style="background: #6c757d; color: white; margin-left: 10px;">Cancel
+                            Edit</a>
                     <?php endif; ?>
                 </form>
             </div>
@@ -634,40 +573,111 @@ if (isset($_GET['edit'])) {
                 <h2>Coffee Products (<?php echo count($products); ?>)</h2>
                 <div class="products-grid">
                     <?php foreach ($products as $product): ?>
-                    <div class="product-card">
-                        <div class="product-header">
-                            <div class="product-info">
-                                <div class="product-name"><?php echo htmlspecialchars($product['name']); ?></div>
-                                <div class="product-price">$<?php echo number_format($product['price'], 2); ?></div>
-                                <span class="product-category"><?php echo htmlspecialchars($product['category']); ?></span>
+                        <div class="product-card">
+                            <head>
+    <style>
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .product-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .product-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .product-price {
+            font-size: 1em;
+            font-weight: bold;
+            color: #D2691E;
+            margin: 5px 0;
+        }
+
+        .product-category {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .product-header img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-left: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="product-header">
+        <div class="product-info">
+            <div class="product-name"><?php echo htmlspecialchars($product['name']); ?></div>
+            <div class="product-price">$<?php echo number_format($product['price'], 2); ?></div>
+            <span class="product-category"><?php echo htmlspecialchars($product['category']); ?></span>
+        </div>
+
+        <img src="../images/<?php echo htmlspecialchars($product['image_path']); ?>"
+             alt="<?php echo htmlspecialchars($product['name']); ?>">
+    </div>
+</body>
+
+
+                            <div class="product-description">
+                                <?php echo htmlspecialchars($product['description']); ?>
                             </div>
-                        </div>
 
-                        <div class="product-description">
-                            <?php echo htmlspecialchars($product['description']); ?>
-                        </div>
+                            <div class="product-meta">
+                                <span><strong>Stock:</strong> <?php echo $product['stock']; ?> units</span>
+                                <span><strong>Image:</strong>
+                                    <?php echo htmlspecialchars($product['image_path']); ?></span>
+                            </div>
 
-                        <div class="product-meta">
-                            <span><strong>Stock:</strong> <?php echo $product['stock']; ?> units</span>
-                            <span><strong>Image:</strong> <?php echo htmlspecialchars($product['image_path']); ?></span>
-                        </div>
+                            <!--is me changes kiye hai or yee code use kiya hai sql mai  ALTER TABLE products ADD COLUMN visible TINYINT(1) NOT NULL DEFAULT 1 AFTER stock; -->
+                            <div class="product-actions">
+                                <a href="?edit=<?php echo $product['id']; ?>" class="btn btn-edit">Edit</a>
 
-                        <div class="product-actions">
-                            <a href="?edit=<?php echo $product['id']; ?>" class="btn btn-edit">Edit</a>
-                            <form method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this product?');">
-                                <input type="hidden" name="action" value="delete">
-                                <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
+                                <form method="POST" style="display: inline;"
+                                    onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+
+                                <!-- Show / Hide Button -->
+                                <form method="POST" style="display:inline; margin-left:6px;">
+                                    <input type="hidden" name="action" value="toggle">
+                                    <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
+                                    <button type="submit" class="btn"
+                                        style="background: <?php echo ($product['visible']) ? '#ffc107' : '#28a745'; ?>; color: white;">
+                                        <?php echo ($product['visible']) ? 'Hide' : 'Show'; ?>
+                                    </button>
+                                </form>
+                                <!-- View Button -->
+                                <a href="view_product.php?id=<?php echo $product['id']; ?>" class="btn"
+                                    style="background:#007bff; color:white;">
+                                    View
+                                </a>
+
+                            </div>
+
                         </div>
-                    </div>
                     <?php endforeach; ?>
 
                     <?php if (empty($products)): ?>
-                    <div style="text-align: center; color: #6c757d; padding: 40px;">
-                        <h3>No products found</h3>
-                        <p>Start by adding your first coffee product!</p>
-                    </div>
+                        <div style="text-align: center; color: #6c757d; padding: 40px;">
+                            <h3>No products found</h3>
+                            <p>Start by adding your first coffee product!</p>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -676,7 +686,7 @@ if (isset($_GET['edit'])) {
 
     <script>
         // Auto-hide success messages
-        setTimeout(function() {
+        setTimeout(function () {
             const successMsg = document.querySelector('.message.success');
             if (successMsg) {
                 successMsg.style.opacity = '0';
@@ -686,7 +696,7 @@ if (isset($_GET['edit'])) {
         }, 3000);
 
         // Form validation
-        document.querySelector('form').addEventListener('submit', function(e) {
+        document.querySelector('form').addEventListener('submit', function (e) {
             const name = document.getElementById('name').value.trim();
             const price = document.getElementById('price').value;
             const category = document.getElementById('category').value;
@@ -706,7 +716,7 @@ if (isset($_GET['edit'])) {
         });
 
         // Auto-generate image path suggestion
-        document.getElementById('name').addEventListener('input', function() {
+        document.getElementById('name').addEventListener('input', function () {
             const imagePath = document.getElementById('image_path');
             if (!imagePath.value || imagePath.dataset.auto === 'true') {
                 const name = this.value.toLowerCase()
@@ -720,44 +730,10 @@ if (isset($_GET['edit'])) {
             }
         });
 
-        document.getElementById('image_path').addEventListener('input', function() {
+        document.getElementById('image_path').addEventListener('input', function () {
             this.dataset.auto = 'false';
         });
     </script>
 </body>
+
 </html>
-
-<?php
-// Database setup instructions (commented out - uncomment to see)
-/*
--- Create database and table in MySQL:
-
-CREATE DATABASE coffee_shop;
-USE coffee_shop;
-
-CREATE TABLE products (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description TEXT,
-    price DECIMAL(10,2) NOT NULL,
-    category VARCHAR(100),
-    image_path VARCHAR(255),
-    stock INT DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-
--- Folder structure should be:
--- project_root/
--- ├── admin.php (this file)
--- └── images/
---     ├── ethiopian-yirgacheffe.jpg
---     ├── colombian-supremo.jpg
---     ├── house-blend-dark.jpg
---     ├── guatemala-antigua.jpg
---     ├── french-vanilla.jpg
---     ├── espresso-blend.jpg
---     ├── decaf-swiss.jpg
---     └── jamaica-blue-mountain.jpg
-*/
-?>

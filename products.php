@@ -5,7 +5,8 @@ require_once 'config.php';
 $category_filter = isset($_GET['category']) ? $_GET['category'] : '';
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-$sql = "SELECT * FROM products WHERE 1=1";
+$sql = "SELECT * FROM products WHERE visible = 1";
+
 $params = [];
 
 if ($category_filter) {
@@ -18,7 +19,7 @@ if ($search) {
     $params[] = "%$search%";
     $params[] = "%$search%";
 }
-
+    
 $sql .= " ORDER BY name";
 
 $stmt = $pdo->prepare($sql);

@@ -279,7 +279,7 @@ $cart_count = $stmt->fetchColumn() ?: 0;
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.php" class="logo">
-                <i class="fas fa-coffee"></i> BrewMaster
+                <i class="fas fa-coffee"></i> BrewMaster 
             </a>
             <ul class="nav-links">
                 <li><a href="index.php">Home</a></li>
