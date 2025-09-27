@@ -376,7 +376,17 @@ foreach ($cart_items as $item) {
                     <?php foreach ($cart_items as $item): ?>
                         <div class="cart-item">
                             <div class="item-image">
-                                <i class="fas fa-coffee"></i>
+                                <div class="item-image">
+                                    <?php if (!empty($item['image_path'])): ?>
+                                        <img src="<?php echo 'images/' . htmlspecialchars(basename($item['image_path'])); ?>"
+                                            alt="<?php echo htmlspecialchars($item['name']); ?>"
+                                            style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+                                    <?php else: ?>
+                                        <i class="fas fa-coffee"></i>
+                                    <?php endif; ?>
+                                </div>
+
+
                             </div>
 
                             <div class="item-info">
