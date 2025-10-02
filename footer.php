@@ -1,3 +1,124 @@
+<style>
+     .footer {
+        background: #333;
+        color: white;
+        padding: 3rem 0 1rem;
+    }
+
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .footer-section h3 {
+        margin-bottom: 1rem;
+        color: #D2691E;
+    }
+
+    .footer-section p,
+    .footer-section a {
+        color: #ccc;
+        text-decoration: none;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .footer-section a:hover {
+        color: #D2691E;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid #555;
+        color: #ccc;
+    }
+     .footer {
+        background: #333;
+        color: white;
+        padding: 3rem 0 1rem;
+    }
+
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .footer-section h3 {
+        margin-bottom: 1rem;
+        color: #D2691E;
+    }
+
+    .footer-section p,
+    .footer-section a {
+        color: #ccc;
+        text-decoration: none;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .footer-section a:hover {
+        color: #D2691E;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid #555;
+        color: #ccc;
+    }
+
+    .booking-form {
+        background: #f8f9fa;
+        padding: 2rem;
+        border-radius: 10px;
+        margin-top: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #6B4423;
+        font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #D2691E;
+    }
+
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+        }
+
+        .featured-products {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
 <footer class="footer">
         <div class="container">
             <div class="footer-content">
