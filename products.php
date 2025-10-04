@@ -40,6 +40,10 @@ $stmt = $pdo->prepare("SELECT SUM(quantity) as total FROM cart WHERE user_id = ?
 $user_id = $_SESSION['user_id'] ?? null;  // $stmt->execute([$_SESSION['user_id']]);
 $cart_count = $stmt->fetchColumn() ?: 0;
 
+// ALTER TABLE products 
+// ADD COLUMN visible TINYINT(1) NOT NULL DEFAULT '1';
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
