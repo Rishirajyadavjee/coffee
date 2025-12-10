@@ -151,12 +151,12 @@
         <form method="POST" name="login" id="login" action="logincheck.php" >
             <div class="form-group">
                 <label for="username">Username or Email</label>
-                <input type="text" id="username" name="username" 
+                <input type="text" id="username" value="admin" name="username" 
             </div>
 
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" 
+                <input type="password" id="password" value="123456" name="password" 
             </div>
 
             <button type="submit" class="btn">Login</button>

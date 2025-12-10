@@ -484,7 +484,7 @@
     </div>
     
  <?php include_once("footer.php"); ?>
-<!-- HY  change  -->
+
     <script>
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'block';
